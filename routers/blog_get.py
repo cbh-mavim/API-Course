@@ -1,11 +1,6 @@
 from fastapi import APIRouter,status,Response
 from typing import Optional
-from enum import Enum
-
-class BlogType(str, Enum):
-    short = "short"
-    story = "story"
-    howto = "howto"
+from models import basemodel
 
 router = APIRouter(
     prefix= '/blog',
@@ -19,7 +14,7 @@ def get_all_blogs(page:int = 2,page_size:Optional[int] = None):
     }
 
 @router.get("/type/{btype}")
-def get_blog_type(type: BlogType):
+def get_blog_type(type: basemodel.BlogType):
     return {
         "message" : f"Blog Type : {type}"
     }
