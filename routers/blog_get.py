@@ -1,6 +1,7 @@
-from fastapi import APIRouter,status,Response
+from fastapi import APIRouter,status,Response,Depends
 from typing import Optional
 from models import basemodel
+from routers.blog_post import required_functionality
 
 router = APIRouter(
     prefix= '/blog',
@@ -8,9 +9,10 @@ router = APIRouter(
 )
 
 @router.get("/all",summary='Reterive all blogs',description='This api call simulates',response_description='The list of available blogs')
-def get_all_blogs(page:int = 2,page_size:Optional[int] = None):
+def get_all_blogs(page:int = 2,page_size:Optional[int] = None,req_parameter: dict = Depends(required_functionality)):
     return {
-        "message" : f"All {page} are {page_size}"
+        "message" : f"All {page} are {page_size}",
+        "req" : f"{req_parameter}"
     }
 
 @router.get("/type/{btype}")
