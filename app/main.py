@@ -1,5 +1,7 @@
 from fastapi import FastAPI
-from routers import blog_get,blog_post
+from app.routers import blog_get,blog_post
+from app.models import models
+from app.db.database import engine
 
 app = FastAPI()
 app.include_router(blog_get.router)
@@ -12,3 +14,4 @@ def root_folder():
         "message" : "Hey!"
     }
 
+models.Base.metadata.create_all(engine)

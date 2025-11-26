@@ -1,7 +1,7 @@
 from fastapi import APIRouter,status,Response,Depends
 from typing import Optional
-from models import basemodel
-from routers.blog_post import required_functionality
+from app.models import basemodel
+from app.routers.blog_post import required_functionality
 
 router = APIRouter(
     prefix= '/blog',
