@@ -17,7 +17,7 @@ def create_article(request: ArticleBase,db: Session = Depends(get_db)):
 
 #Get Specific Article
 @router.get("/{id}",response_model=ArticleDisplay)
-def get_article(id:int,request: ArticleBase,db: Session = Depends(get_db)):
+def get_article(id:int,db: Session = Depends(get_db)):
     return db_article.get_article(db,id)
 
 

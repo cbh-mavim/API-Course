@@ -1,13 +1,18 @@
-from fastapi import FastAPI
-from app.routers import blog_get,blog_post,users,article
+from fastapi import FastAPI,Request,HTTPException
+from fastapi.responses import JSONResponse,PlainTextResponse
+from app.routers import blog_get,blog_post,users,article,product
 from app.models import models
 from app.db.database import engine
+from exceptions import StoryException
+
 
 app = FastAPI()
 app.include_router(blog_get.router)
 app.include_router(blog_post.router)
 app.include_router(users.router)
 app.include_router(article.router)
+app.include_router(product.router)
+
 
 
 @app.get("/")
@@ -15,5 +20,19 @@ def root_folder():
     return {
         "message" : "Hey!"
     }
+
+
+@app.exception_handler(StoryException)
+def story_exception_handler(request: Request, exc:StoryException ):
+    return JSONResponse(
+        status_code= 418, #Exception Status Code
+        content= {
+            "detail" : exc.name
+        }
+    )
+
+@app.exception_handler(HTTPException)
+def custom_hanler(request:Request,exc: StoryException):
+    return PlainTextResponse(str(exc),status_code=400)
 
 models.Base.metadata.create_all(engine)
